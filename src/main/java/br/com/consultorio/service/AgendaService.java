@@ -22,11 +22,11 @@ public class AgendaService {
     @Autowired
     public HistoricoService historicoService;
 
-    public void insert(Agenda agenda, Secretaria secretaria, String obs) {
+    public void insert(Agenda agenda, Secretaria secretaria, String observacao) {
         this.validarInsert(agenda, secretaria);
         this.saveTransaction(agenda);
         this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                agenda.getPaciente(), secretaria,obs);
+                agenda.getPaciente(), secretaria,observacao);
     }
 
     public void validarInsert(Agenda agenda, Secretaria secretaria) {
@@ -34,7 +34,9 @@ public class AgendaService {
         if (agenda.getDataDe().compareTo(agenda.getDataAte()) >= 0) {
             throw new RuntimeException("Warning: As datas são inválidas");
         }
-
+        if(agenda.getStatusAgendamento() == null){
+            agenda.setStatusAgendamento(StatusAgendamento.pendente);
+        }
         if (secretaria == null) {
             agenda.setStatusAgendamento(StatusAgendamento.pendente);
         }
@@ -54,30 +56,32 @@ public class AgendaService {
         return this.agendaRepository.findAll(pageable);
     }
 
-    public void update(Long id,Agenda agenda,Secretaria secretaria,String obs) {
+    public void update(Long id,Agenda agenda,Secretaria secretaria,String observacao) {
         if (id == agenda.getId()) {
             this.validarUpdate(agenda,secretaria);
             this.saveTransaction(agenda);
             this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                    agenda.getPaciente(), secretaria,obs);
+                    agenda.getPaciente(), secretaria,observacao);
         } else {
             throw new RuntimeException();
         }
     }
 
     public void validarUpdate(Agenda agenda, Secretaria secretaria) {
-        if (secretaria == null) {
+        if  (secretaria == null) {
             throw new RuntimeException("Warning: Operação invalida!");
+        }
+        if (agenda.getDataDe().compareTo(agenda.getDataAte()) >= 0) {
+            throw new RuntimeException("Warning: As datas são inválidas");
         }
     }
 
-    public void updateStatusAprovado(Long id,Agenda agenda,Secretaria secretaria,String obs) {
+    public void updateStatusAprovado(Long id,Agenda agenda,Secretaria secretaria,String observacao) {
         if (id == agenda.getId()) {
-            this.validarUpdate(agenda,secretaria);
             this.validarUpdateAprovado(agenda);
             this.saveTransaction(agenda);
             this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                    agenda.getPaciente(), secretaria,obs);
+                    agenda.getPaciente(), secretaria,observacao);
         } else {
             throw new RuntimeException();
         }
@@ -86,36 +90,65 @@ public class AgendaService {
     public void validarUpdateAprovado(Agenda agenda) {
         if (agenda.getStatusAgendamento().equals(StatusAgendamento.pendente)) {
             agenda.setStatusAgendamento(StatusAgendamento.aprovado);
+        } else {
+            throw new RuntimeException("Warning: Status inválido para update de Aprovado");
         }
     }
 
-    public void updateStatusRejeitado(Long id,Agenda agenda,Secretaria secretaria,String obs) {
+    public void updateStatusRejeitado(Long id,Agenda agenda,Secretaria secretaria,String observacao) {
         if (id == agenda.getId()) {
+            this.validarUpdateRejeitado(agenda);
             this.saveTransaction(agenda);
             this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                    agenda.getPaciente(), secretaria,obs);
+                    agenda.getPaciente(), secretaria,observacao);
         } else {
             throw new RuntimeException();
         }
     }
 
-    public void updateStatusCompareceu(Long id,Agenda agenda,Secretaria secretaria,String obs) {
+    public void validarUpdateRejeitado(Agenda agenda) {
+        if (agenda.getStatusAgendamento().equals(StatusAgendamento.pendente)) {
+            agenda.setStatusAgendamento(StatusAgendamento.rejeitado);
+        } else {
+            throw new RuntimeException("Warning: Status inválido para update de Rejeitado");
+        }
+    }
+
+    public void updateStatusCompareceu(Long id,Agenda agenda,Secretaria secretaria,String observacao) {
         if (id == agenda.getId()) {
+            this.validarUpdateCompareceu(agenda);
             this.saveTransaction(agenda);
             this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                    agenda.getPaciente(), secretaria,obs);
+                    agenda.getPaciente(), secretaria,observacao);
         } else {
             throw new RuntimeException();
         }
     }
 
-    public void updateStatusNCompareceu(Long id,Agenda agenda,Secretaria secretaria,String obs) {
+    public void validarUpdateCompareceu(Agenda agenda) {
+        if (agenda.getStatusAgendamento().equals(StatusAgendamento.aprovado)) {
+            agenda.setStatusAgendamento(StatusAgendamento.compareceu);
+        } else {
+            throw new RuntimeException("Warning: Status inválido para update de Compareceu");
+        }
+    }
+
+    public void updateStatusNCompareceu(Long id,Agenda agenda,Secretaria secretaria,String observacao) {
         if (id == agenda.getId()) {
+            this.validarUpdateNCompareceu(agenda);
             this.saveTransaction(agenda);
             this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                    agenda.getPaciente(), secretaria,obs);
+                    agenda.getPaciente(), secretaria,observacao);
         } else {
             throw new RuntimeException();
+        }
+    }
+
+    public void validarUpdateNCompareceu(Agenda agenda) {
+        if (agenda.getStatusAgendamento().equals(StatusAgendamento.aprovado)) {
+            agenda.setStatusAgendamento(StatusAgendamento.ncompareceu);
+        } else {
+            throw new RuntimeException("Warning: Status inválido para update de Não Compareceu");
         }
     }
 

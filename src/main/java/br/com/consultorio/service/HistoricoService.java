@@ -3,10 +3,13 @@ package br.com.consultorio.service;
 import br.com.consultorio.entity.*;
 import br.com.consultorio.repository.HistoricoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class HistoricoService {
@@ -32,5 +35,22 @@ public class HistoricoService {
     @Transactional
     public void saveTransaction(Historico historico) {
         this.historicoRepository.save(historico);
+    }
+
+    public Optional<Historico> findById(Long id) {
+        return this.historicoRepository.findById(id);
+    }
+
+    public Page<Historico> listAll(Pageable pageable) {
+        return this.historicoRepository.findAll(pageable);
+    }
+
+    @Transactional
+    public void disable(Long id, Historico historico){
+        if (id == historico.getId()){
+            this.historicoRepository.disable(historico.getId(), LocalDateTime.now());
+        } else {
+            throw new RuntimeException();
+        }
     }
 }
