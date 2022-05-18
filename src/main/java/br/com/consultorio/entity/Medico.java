@@ -25,7 +25,7 @@ public class Medico extends Pessoa {
 
     @Getter @Setter
     @Digits(integer = 3, fraction = 3)
-    @Column(name = "porcen_participacao", nullable = false)
+    @Column(name = "porcentagem_participacao", nullable = false)
     private BigDecimal porcenParticipacao;
 
     @Getter @Setter

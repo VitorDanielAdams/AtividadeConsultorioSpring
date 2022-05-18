@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class Paciente extends Pessoa {
 
     @Getter @Setter
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_atendimento", nullable = false, length = 11)
     private TipoAtendimento tipoAtendimento;
 

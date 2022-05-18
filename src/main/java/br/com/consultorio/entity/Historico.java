@@ -22,7 +22,7 @@ public class Historico extends AbstractEntity {
 
     @Getter @Setter
     @Enumerated(EnumType.STRING)
-    @Column(name = "status_agendamento", nullable = false, length = 15)
+    @Column(name = "status", nullable = false, length = 15)
     private StatusAgendamento statusAgendamento;
 
     @Getter @Setter

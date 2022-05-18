@@ -22,7 +22,7 @@ public class Secretaria extends Pessoa {
     private BigDecimal salario;
 
     @Getter @Setter
-    @Column(name = "datacontratacao", nullable = false)
+    @Column(name = "data_contratacao", nullable = false)
     private LocalDateTime dataContratacao;
 
     @Getter @Setter

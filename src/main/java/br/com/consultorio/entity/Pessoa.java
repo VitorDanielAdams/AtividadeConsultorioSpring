@@ -27,10 +27,6 @@ public abstract class Pessoa extends AbstractEntity {
     private String rg;
 
     @Getter @Setter
-    @Column(name = "cep", nullable = false, length = 9)
-    private String cep;
-
-    @Getter @Setter
     @Column(name = "telefone", nullable = false, length = 18)
     private String telefone;
 
