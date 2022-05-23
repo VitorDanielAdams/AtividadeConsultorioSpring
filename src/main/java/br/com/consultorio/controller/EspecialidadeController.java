@@ -9,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.Path;
-
 @Controller
 @RequestMapping("/api/especialidades")
 public class EspecialidadeController {
@@ -43,7 +41,7 @@ public class EspecialidadeController {
     @PutMapping("/{idEspecialidade}")
     public ResponseEntity<?> update(
             @RequestBody Especialidade especialidade,
-            @PathVariable Long idEspecialidade
+            @PathVariable("idEspecialidade") Long idEspecialidade
     ){
         try {
             this.especialidadeService.update(idEspecialidade,especialidade);
@@ -56,7 +54,7 @@ public class EspecialidadeController {
     @PutMapping("/status/{idEspecialidade}")
     public ResponseEntity<?> updateStatus(
             @RequestBody Especialidade especialidade,
-            @PathVariable Long idEspecialidade
+            @PathVariable("idEspecialidade") Long idEspecialidade
     ){
         try {
             this.especialidadeService.disable(idEspecialidade,especialidade);
