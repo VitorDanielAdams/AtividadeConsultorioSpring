@@ -44,8 +44,8 @@ public class AgendaService {
     }
 
     public boolean horarioComercial(LocalDateTime data){
-        if (data.getHour() >= 8 && data.getHour() < 12
-            || data.getHour() >= 14 && data.getHour() < 18
+        if ((data.getHour() >= 8 && data.getHour() < 12)
+            || (data.getHour() >= 14 && data.getHour() < 18)
         ){
             return true;
         } else {
@@ -60,13 +60,14 @@ public class AgendaService {
 
     public boolean horarioMedico(Agenda agenda){
         return this.agendaRepository.conflitoMedicoPaciente(
+                agenda.getId(),
                 agenda.getDataDe(),
                 agenda.getDataAte(),
                 agenda.getMedico().getId(),
                 agenda.getPaciente().getId()).size() > 0 ? false : true;
     }
 
-    public void validarEncaixeFalse(Agenda agenda) {
+    public void validarEncaixeTrue(Agenda agenda) {
         Assert.isTrue(this.dataMaiorAtual(agenda.getDataAte()),
                 "Warning: Não pode ser agendado uma consulta no passado");
         Assert.isTrue(this.dataMaiorAtual(agenda.getDataDe()),
@@ -85,9 +86,7 @@ public class AgendaService {
                 "Warning: O horário do agendamento está ocupado");
     }
 
-    public void validarEncaixeTrue(Agenda agenda) {
-        Assert.isTrue(this.dataDeMaiorDataAte(agenda.getDataDe(),agenda.getDataAte()),
-                "Warning: Data inválida");
+    public void validarEncaixeFalse(Agenda agenda) {
         Assert.isTrue(this.horarioMedico(agenda),
                 "Warning: O horário do agendamento está ocupado");
     }

@@ -22,12 +22,13 @@ public interface AgendaRepository extends JpaRepository<Agenda, Long> {
             @Param("agenda") Long idAgenda,
             @Param("excluido") LocalDateTime dataExcluido);
 
-    @Query("SELECT Agenda FROM Agenda " +
-            "WHERE :datade BETWEEN Agenda.dataDe AND Agenda.dataAte " +
-            "AND :dataAte BETWEEN Agenda.dataDe AND Agenda.dataAte " +
-            "AND Agenda.medico = :medico " +
-            "AND Agenda.paciente = :paciente")
+    @Query("FROM Agenda agenda " +
+            "WHERE (:datade BETWEEN agenda.dataDe AND agenda.dataAte " +
+            "OR :dataAte BETWEEN agenda.dataDe AND agenda.dataAte) " +
+            "AND (agenda.medico = :medico OR agenda.paciente = :paciente) " +
+            "AND agenda.id <> :agenda")
     public List<Agenda> conflitoMedicoPaciente(
+            @Param("agenda") Long idAgenda,
             @Param("datade") LocalDateTime dataDe,
             @Param("dataate") LocalDateTime dataAte,
             @Param("medico") Long idMedico,
