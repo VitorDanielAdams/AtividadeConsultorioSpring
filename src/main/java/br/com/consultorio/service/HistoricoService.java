@@ -45,12 +45,4 @@ public class HistoricoService {
         return this.historicoRepository.findAll(pageable);
     }
 
-    @Transactional
-    public void disable(Long id, Historico historico){
-        if (id == historico.getId()){
-            this.historicoRepository.disable(historico.getId(), LocalDateTime.now());
-        } else {
-            throw new RuntimeException();
-        }
-    }
 }
