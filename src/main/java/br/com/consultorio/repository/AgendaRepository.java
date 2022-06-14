@@ -30,7 +30,7 @@ public interface AgendaRepository extends JpaRepository<Agenda, Long> {
     public List<Agenda> conflitoMedicoPaciente(
             @Param("agenda") Long idAgenda,
             @Param("datade") LocalDateTime dataDe,
-            @Param("dataate") LocalDateTime dataAte,
+            @Param("dataAte") LocalDateTime dataAte,
             @Param("medico") Long idMedico,
             @Param("paciente") Long idPaciente
     );

@@ -1,6 +1,4 @@
 package br.com.consultorio.entity;
-
-import jdk.jfr.BooleanFlag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
