@@ -131,7 +131,7 @@ public class AgendaController {
         }
     }
 
-    @PutMapping("/status/{idAgenda}")
+    @PutMapping("/desativar/{idAgenda}")
     public ResponseEntity<?> disable(
             @RequestBody Agenda agenda,
             @PathVariable("idAgenda") Long idAgenda

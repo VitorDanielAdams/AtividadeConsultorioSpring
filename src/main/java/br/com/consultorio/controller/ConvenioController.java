@@ -51,7 +51,7 @@ public class ConvenioController {
         }
     }
 
-    @PutMapping("/status/{idConvenio}")
+    @PutMapping("/desativar/{idConvenio}")
     public ResponseEntity<?> disable(
             @RequestBody Convenio convenio,
             @PathVariable("idConvenio") Long idConvenio

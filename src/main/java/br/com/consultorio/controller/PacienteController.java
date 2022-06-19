@@ -51,7 +51,7 @@ public class PacienteController {
         }
     }
 
-    @PutMapping("/status/{idPaciente}")
+    @PutMapping("/desativar/{idPaciente}")
     public ResponseEntity<?> disable(
             @RequestBody Paciente paciente,
             @PathVariable("idPaciente") Long idPaciente

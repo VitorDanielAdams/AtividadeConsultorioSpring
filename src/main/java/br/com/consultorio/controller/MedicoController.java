@@ -51,7 +51,7 @@ public class MedicoController {
         }
     }
 
-    @PutMapping("/status/{idMedico}")
+    @PutMapping("/desativar/{idMedico}")
     public ResponseEntity<?> disable(
             @RequestBody Medico medico,
             @PathVariable("idMedico") Long idMedico

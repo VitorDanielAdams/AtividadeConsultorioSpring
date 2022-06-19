@@ -51,7 +51,7 @@ public class SecretariaController {
         }
     }
 
-    @PutMapping("/status/{idSecretaria}")
+    @PutMapping("/desativar/{idSecretaria}")
     public ResponseEntity<?> disable(
             @RequestBody Secretaria secretaria,
             @PathVariable("idSecretaria") Long idSecretaria

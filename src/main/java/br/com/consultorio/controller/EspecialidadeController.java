@@ -51,7 +51,7 @@ public class EspecialidadeController {
         }
     }
 
-    @PutMapping("/status/{idEspecialidade}")
+    @PutMapping("/desativar/{idEspecialidade}")
     public ResponseEntity<?> updateStatus(
             @RequestBody Especialidade especialidade,
             @PathVariable("idEspecialidade") Long idEspecialidade
