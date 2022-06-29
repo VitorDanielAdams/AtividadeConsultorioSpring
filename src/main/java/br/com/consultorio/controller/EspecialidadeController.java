@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @Controller
 @RequestMapping("/api/especialidades")
 public class EspecialidadeController {
@@ -28,7 +29,7 @@ public class EspecialidadeController {
         return ResponseEntity.ok().body(this.especialidadeService.listAll(pageable));
     }
 
-    @PostMapping
+    @PostMapping("/cadastrar")
     public ResponseEntity<?> insert(@RequestBody Especialidade especialidade){
         try {
             this.especialidadeService.insert(especialidade);

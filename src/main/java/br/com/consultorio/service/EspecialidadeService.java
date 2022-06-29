@@ -42,7 +42,7 @@ public class EspecialidadeService {
     @Transactional
     public void disable(Long id, Especialidade especialidade) {
         if (id == especialidade.getId()) {
-            this.especialidadeRepository.disable(LocalDateTime.now(), especialidade.getId());
+            this.especialidadeRepository.disable(especialidade.getId(), false);
         } else {
             throw new RuntimeException();
         }

@@ -18,8 +18,9 @@ public class HistoricoService {
     public HistoricoRepository historicoRepository;
 
     public void createHistorico(Agenda agenda, StatusAgendamento statusAgendamento,
-                                     LocalDateTime data, Paciente paciente, Secretaria secretaria, String obs) {
-        Historico historico = new Historico(agenda,statusAgendamento,paciente,secretaria,data,obs);
+                                     LocalDateTime data, Paciente paciente, Secretaria secretaria) {
+        Historico historico = new Historico(agenda,statusAgendamento,paciente,secretaria,data,"");
+        historico.setAtivo(true);
         this.insert(historico);
     }
 

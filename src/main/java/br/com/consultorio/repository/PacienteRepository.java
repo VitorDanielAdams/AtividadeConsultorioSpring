@@ -14,10 +14,10 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long> {
 
     @Modifying
     @Query("UPDATE Paciente paciente " +
-            "SET paciente.excluido = :excluido " +
+            "SET paciente.ativo = :excluido " +
             "WHERE paciente.id = :paciente")
     public void disable(
             @Param("paciente") Long idPaciente,
-            @Param("excluido")LocalDateTime dataExcluido);
+            @Param("excluido") Boolean ativo);
 
 }

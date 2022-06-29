@@ -16,16 +16,16 @@ public interface AgendaRepository extends JpaRepository<Agenda, Long> {
 
     @Modifying
     @Query("UPDATE Agenda agenda " +
-            "SET agenda.excluido = :excluido " +
+            "SET agenda.ativo = :excluido " +
             "WHERE agenda.id = :agenda")
     public void disable(
             @Param("agenda") Long idAgenda,
-            @Param("excluido") LocalDateTime dataExcluido);
+            @Param("excluido") Boolean ativo);
 
     @Query("FROM Agenda agenda " +
             "WHERE (:datade BETWEEN agenda.dataDe AND agenda.dataAte " +
             "OR :dataAte BETWEEN agenda.dataDe AND agenda.dataAte) " +
-            "AND (agenda.medico = :medico OR agenda.paciente = :paciente) " +
+            "AND (agenda.medico.id = :medico OR agenda.paciente.id = :paciente) " +
             "AND agenda.id <> :agenda")
     public List<Agenda> conflitoMedicoPaciente(
             @Param("agenda") Long idAgenda,

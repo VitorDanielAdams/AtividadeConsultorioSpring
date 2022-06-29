@@ -1,4 +1,5 @@
 package br.com.consultorio.entity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -6,17 +7,25 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @NoArgsConstructor
 @Table(name = "agendas", schema = "public")
 public class Agenda extends AbstractEntity {
 
     @Getter @Setter
-    @ManyToOne
+    @JoinColumn(name = "id_paciente")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Paciente paciente;
 
     @Getter @Setter
-    @ManyToOne
+    @JoinColumn(name = "id_secretaria")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Secretaria secretaria;
+
+    @Getter @Setter
+    @JoinColumn(name = "id_medico")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Medico medico;
 
     @Getter @Setter

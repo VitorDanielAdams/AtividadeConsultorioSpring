@@ -42,7 +42,7 @@ public class SecretariaService {
     @Transactional
     public void disable(Long id, Secretaria secretaria) {
         if (id == secretaria.getId()) {
-            this.secretariaRepository.disable(secretaria.getId(), LocalDateTime.now());
+            this.secretariaRepository.disable(secretaria.getId(), false);
         } else {
             throw new RuntimeException();
         }

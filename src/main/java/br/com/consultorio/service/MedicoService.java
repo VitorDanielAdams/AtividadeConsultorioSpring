@@ -42,7 +42,7 @@ public class MedicoService {
     @Transactional
     public void disable(Long id, Medico medico) {
         if (id == medico.getId()) {
-            this.medicoRepository.disable(medico.getId(), LocalDateTime.now());
+            this.medicoRepository.disable(medico.getId(), false);
         } else {
             throw new RuntimeException();
         }

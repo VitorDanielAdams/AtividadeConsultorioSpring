@@ -26,8 +26,12 @@ public abstract class AbstractEntity {
     private LocalDateTime atualizado;
 
     @Getter @Setter
-    @Column(name = "excluido")
-    private LocalDateTime excluido;
+    @Column(name = "ativo", columnDefinition = "boolean default true", nullable = false)
+    private Boolean ativo;
+
+    public AbstractEntity(Long id){
+        this.id = id;
+    }
 
     @PrePersist
     public void dataCadastro(){

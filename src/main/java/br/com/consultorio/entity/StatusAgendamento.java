@@ -5,7 +5,7 @@ public enum StatusAgendamento {
     aprovado("Aprovado"),
     cancelado("Cancelado"),
     compareceu("Compareceu"),
-    ncompareceu("Não Compareceu"),
+    nao_compareceu("Não Compareceu"),
     rejeitado ("Rejeitado");
 
     public final String valor;

@@ -1,7 +1,6 @@
 package br.com.consultorio.service;
 
 import br.com.consultorio.entity.Agenda;
-import br.com.consultorio.entity.Secretaria;
 import br.com.consultorio.entity.StatusAgendamento;
 import br.com.consultorio.repository.AgendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +23,11 @@ public class AgendaService {
     @Autowired
     public HistoricoService historicoService;
 
-    public void insert(Agenda agenda, Secretaria secretaria, String observacao) {
-        this.validarInsert(agenda, secretaria);
+    public void insert(Agenda agenda) {
+        this.validarInsert(agenda);
         this.saveTransaction(agenda);
         this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                agenda.getPaciente(), secretaria,observacao);
+                agenda.getPaciente(),agenda.getSecretaria());
     }
 
     public boolean dataMaiorAtual(LocalDateTime data){
@@ -91,9 +90,9 @@ public class AgendaService {
                 "Warning: O horário do agendamento está ocupado");
     }
 
-    public void validarInsert(Agenda agenda, Secretaria secretaria) {
+    public void validarInsert(Agenda agenda) {
 
-        if (secretaria == null) {
+        if (agenda.getSecretaria() == null) {
             if(agenda.getEncaixe()){
                 this.validarEncaixeTrue(agenda);
                 agenda.setStatusAgendamento(StatusAgendamento.pendente);
@@ -126,18 +125,18 @@ public class AgendaService {
         return this.agendaRepository.findAll(pageable);
     }
 
-    public void update(Long id,Agenda agenda,Secretaria secretaria,String observacao) {
+    public void update(Long id,Agenda agenda) {
         if (id == agenda.getId()) {
-            this.validarUpdate(agenda,secretaria);
+            this.validarUpdate(agenda);
             this.saveTransaction(agenda);
             this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                    agenda.getPaciente(), secretaria,observacao);
+                    agenda.getPaciente(), agenda.getSecretaria());
         } else {
             throw new RuntimeException();
         }
     }
 
-    public void validarUpdate(Agenda agenda, Secretaria secretaria) {
+    public void validarUpdate(Agenda agenda) {
         if(agenda.getEncaixe()){
             this.validarEncaixeTrue(agenda);
         } else {
@@ -145,20 +144,20 @@ public class AgendaService {
         }
     }
 
-    public void updateStatusAprovado(Long id,Agenda agenda,Secretaria secretaria,String observacao) {
+    public void updateStatusAprovado(Long id,Agenda agenda) {
         if (id == agenda.getId()) {
-            this.validarUpdateAprovado(agenda, secretaria);
+            this.validarUpdateAprovado(agenda);
             this.saveTransaction(agenda);
             this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                    agenda.getPaciente(), secretaria,observacao);
+                    agenda.getPaciente(), agenda.getSecretaria());
         } else {
             throw new RuntimeException();
         }
     }
 
-    public void validarUpdateAprovado(Agenda agenda, Secretaria secretaria) {
+    public void validarUpdateAprovado(Agenda agenda) {
         if (agenda.getStatusAgendamento().equals(StatusAgendamento.pendente)) {
-            if(secretaria != null){
+            if(agenda.getSecretaria() != null){
                 agenda.setStatusAgendamento(StatusAgendamento.aprovado);
             } else {
                 throw new RuntimeException("Warning: Sem permissão para executar essa ação");
@@ -168,20 +167,20 @@ public class AgendaService {
         }
     }
 
-    public void updateStatusRejeitado(Long id,Agenda agenda,Secretaria secretaria,String observacao) {
+    public void updateStatusRejeitado(Long id,Agenda agenda) {
         if (id == agenda.getId()) {
-            this.validarUpdateRejeitado(agenda, secretaria);
+            this.validarUpdateRejeitado(agenda);
             this.saveTransaction(agenda);
             this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                    agenda.getPaciente(), secretaria,observacao);
+                    agenda.getPaciente(), agenda.getSecretaria());
         } else {
             throw new RuntimeException();
         }
     }
 
-    public void validarUpdateRejeitado(Agenda agenda, Secretaria secretaria) {
+    public void validarUpdateRejeitado(Agenda agenda) {
         if (agenda.getStatusAgendamento().equals(StatusAgendamento.pendente)) {
-            if(secretaria != null){
+            if(agenda.getSecretaria() != null){
                 agenda.setStatusAgendamento(StatusAgendamento.rejeitado);
             } else {
                 throw new RuntimeException("Warning: Sem permissão para executar essa ação");
@@ -191,12 +190,12 @@ public class AgendaService {
         }
     }
 
-    public void updateStatusCancelado(Long id,Agenda agenda,Secretaria secretaria,String observacao) {
+    public void updateStatusCancelado(Long id,Agenda agenda) {
         if (id == agenda.getId()) {
             this.validarUpdateCancelado(agenda);
             this.saveTransaction(agenda);
             this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                    agenda.getPaciente(), secretaria,observacao);
+                    agenda.getPaciente(), agenda.getSecretaria());
         } else {
             throw new RuntimeException();
         }
@@ -211,20 +210,20 @@ public class AgendaService {
         }
     }
 
-    public void updateStatusCompareceu(Long id,Agenda agenda,Secretaria secretaria,String observacao) {
+    public void updateStatusCompareceu(Long id,Agenda agenda) {
         if (id == agenda.getId()) {
-            this.validarUpdateCompareceu(agenda, secretaria);
+            this.validarUpdateCompareceu(agenda);
             this.saveTransaction(agenda);
             this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                    agenda.getPaciente(), secretaria,observacao);
+                    agenda.getPaciente(), agenda.getSecretaria());
         } else {
             throw new RuntimeException();
         }
     }
 
-    public void validarUpdateCompareceu(Agenda agenda, Secretaria secretaria) {
+    public void validarUpdateCompareceu(Agenda agenda) {
         if (agenda.getStatusAgendamento().equals(StatusAgendamento.aprovado)) {
-            if(secretaria != null) {
+            if(agenda.getSecretaria() != null) {
                 Assert.isTrue(this.dataMenorIgualAtual(agenda.getDataAte()),
                         "Warning: Data inválida");
                 Assert.isTrue(this.dataMenorIgualAtual(agenda.getDataDe()),
@@ -238,25 +237,25 @@ public class AgendaService {
         }
     }
 
-    public void updateStatusNCompareceu(Long id,Agenda agenda,Secretaria secretaria,String observacao) {
+    public void updateStatusNCompareceu(Long id,Agenda agenda) {
         if (id == agenda.getId()) {
-            this.validarUpdateNCompareceu(agenda, secretaria);
+            this.validarUpdateNCompareceu(agenda);
             this.saveTransaction(agenda);
             this.historicoService.createHistorico(agenda,agenda.getStatusAgendamento(),LocalDateTime.now(),
-                    agenda.getPaciente(), secretaria,observacao);
+                    agenda.getPaciente(), agenda.getSecretaria());
         } else {
             throw new RuntimeException();
         }
     }
 
-    public void validarUpdateNCompareceu(Agenda agenda, Secretaria secretaria) {
+    public void validarUpdateNCompareceu(Agenda agenda) {
         if (agenda.getStatusAgendamento().equals(StatusAgendamento.aprovado)) {
-            if(secretaria != null) {
+            if(agenda.getSecretaria() != null) {
                 Assert.isTrue(this.dataMenorIgualAtual(agenda.getDataAte()),
                         "Warning: Data inválida");
                 Assert.isTrue(this.dataMenorIgualAtual(agenda.getDataDe()),
                         "Warning: Data inválida");
-                agenda.setStatusAgendamento(StatusAgendamento.ncompareceu);
+                agenda.setStatusAgendamento(StatusAgendamento.nao_compareceu);
             } else {
                 throw new RuntimeException("Warning: Sem permissão para executar essa ação");
             }
@@ -268,7 +267,7 @@ public class AgendaService {
     @Transactional
     public void disable(Long id, Agenda agenda) {
         if (id == agenda.getId()){
-            this.agendaRepository.disable(agenda.getId(), LocalDateTime.now());
+            this.agendaRepository.disable(agenda.getId(), false);
         } else {
             throw new RuntimeException();
         }

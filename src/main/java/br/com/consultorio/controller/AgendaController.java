@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @Controller
 @RequestMapping("api/agendas")
 public class AgendaController {
@@ -30,11 +31,9 @@ public class AgendaController {
     }
 
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody Agenda agenda,
-                                    @RequestBody Secretaria secretaria,
-                                    @RequestBody String observacao){
+    public ResponseEntity<?> insert(@RequestBody Agenda agenda){
         try {
-            this.agendaService.insert(agenda,secretaria,observacao);
+            this.agendaService.insert(agenda);
             return ResponseEntity.ok().body("Agenda Cadastrada Com Sucesso!");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -44,12 +43,10 @@ public class AgendaController {
     @PutMapping("/{idAgenda}")
     public ResponseEntity<?> update(
             @RequestBody Agenda agenda,
-            @RequestBody Secretaria secretaria,
-            @RequestBody String observacao,
             @PathVariable("idAgenda") Long idAgenda
     ){
         try {
-            this.agendaService.update(idAgenda,agenda,secretaria,observacao);
+            this.agendaService.update(idAgenda,agenda);
             return ResponseEntity.ok().body("Agenda Atualizada Com Sucesso!");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -59,12 +56,10 @@ public class AgendaController {
     @PutMapping("/status/aprovado/{idAgenda}")
     public ResponseEntity<?> updateStatusAprovado(
         @RequestBody Agenda agenda,
-        @RequestBody Secretaria secretaria,
-        @RequestBody String observacao,
         @PathVariable("idAgenda") Long idAgenda
     ){
         try {
-            this.agendaService.updateStatusAprovado(idAgenda,agenda,secretaria,observacao);
+            this.agendaService.updateStatusAprovado(idAgenda,agenda);
             return ResponseEntity.ok().body("Agenda Aprovada Com Sucesso!");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -74,12 +69,10 @@ public class AgendaController {
     @PutMapping("/status/rejeitado/{idAgenda}")
     public ResponseEntity<?> updateStatusRejeitado(
             @RequestBody Agenda agenda,
-            @RequestBody Secretaria secretaria,
-            @RequestBody String observacao,
             @PathVariable("idAgenda") Long idAgenda
     ){
         try {
-            this.agendaService.updateStatusRejeitado(idAgenda,agenda,secretaria,observacao);
+            this.agendaService.updateStatusRejeitado(idAgenda,agenda);
             return ResponseEntity.ok().body("Agenda Rejeitada Com Sucesso!");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -89,12 +82,10 @@ public class AgendaController {
     @PutMapping("/status/compareceu/{idAgenda}")
     public ResponseEntity<?> updateStatusCompareceu(
             @RequestBody Agenda agenda,
-            @RequestBody Secretaria secretaria,
-            @RequestBody String observacao,
             @PathVariable("idAgenda") Long idAgenda
     ){
         try {
-            this.agendaService.updateStatusCompareceu(idAgenda,agenda,secretaria,observacao);
+            this.agendaService.updateStatusCompareceu(idAgenda,agenda);
             return ResponseEntity.ok().body("Status Da Agenda Alterado Com Sucesso!");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -104,12 +95,10 @@ public class AgendaController {
     @PutMapping("/status/ncompareceu/{idAgenda}")
     public ResponseEntity<?> updateStatusNCompareceu(
             @RequestBody Agenda agenda,
-            @RequestBody Secretaria secretaria,
-            @RequestBody String observacao,
             @PathVariable("idAgenda") Long idAgenda
     ){
         try {
-            this.agendaService.updateStatusNCompareceu(idAgenda,agenda,secretaria,observacao);
+            this.agendaService.updateStatusNCompareceu(idAgenda,agenda);
             return ResponseEntity.ok().body("Status Da Agenda Alterado Com Sucesso!");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -119,12 +108,10 @@ public class AgendaController {
     @PutMapping("/status/cancelado/{idAgenda}")
     public ResponseEntity<?> updateStatusCancelado(
             @RequestBody Agenda agenda,
-            @RequestBody Secretaria secretaria,
-            @RequestBody String observacao,
             @PathVariable("idAgenda") Long idAgenda
     ){
         try {
-            this.agendaService.updateStatusCancelado(idAgenda,agenda,secretaria,observacao);
+            this.agendaService.updateStatusCancelado(idAgenda,agenda);
             return ResponseEntity.ok().body("Agenda Cancelada Com Sucesso!");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

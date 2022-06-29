@@ -44,7 +44,7 @@ public class PacienteService {
             }
         }
 
-        if (paciente.getTipoAtendimento().equals(TipoAtendimento.plano)){
+        if (paciente.getTipoAtendimento().equals(TipoAtendimento.particular)){
             paciente.setConvenio(null);
             paciente.setNumeroCartaoConvenio(null);
             paciente.setDataVencimento(null);
@@ -73,7 +73,7 @@ public class PacienteService {
     @Transactional
     public void disable(Long id, Paciente paciente) {
         if (id == paciente.getId()) {
-            this.pacienteRepository.disable(paciente.getId(), LocalDateTime.now());
+            this.pacienteRepository.disable(paciente.getId(), false);
         } else {
             throw new RuntimeException();
         }

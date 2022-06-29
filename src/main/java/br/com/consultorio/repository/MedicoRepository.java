@@ -14,10 +14,10 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
 
     @Modifying
     @Query("UPDATE Medico medico " +
-            "SET medico.excluido = :excluido " +
+            "SET medico.ativo = :excluido " +
             "WHERE medico.id = :medico")
     public void disable(
             @Param("medico") Long idMedico,
-            @Param("excluido")LocalDateTime dataExcluido);
+            @Param("excluido") Boolean ativo);
 
 }

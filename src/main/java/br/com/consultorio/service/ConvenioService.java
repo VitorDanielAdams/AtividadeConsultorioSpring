@@ -43,7 +43,7 @@ public class ConvenioService {
     @Transactional
     public void disable(Long id, Convenio convenio) {
         if (id == convenio.getId()) {
-            this.convenioRepository.disable(convenio.getId(), LocalDateTime.now());
+            this.convenioRepository.disable(convenio.getId(), false);
         } else {
             throw new RuntimeException();
         }
