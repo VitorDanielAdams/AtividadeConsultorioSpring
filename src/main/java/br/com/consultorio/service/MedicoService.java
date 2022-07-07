@@ -7,8 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -23,6 +21,10 @@ public class MedicoService {
 
     public Page<Medico> listAll(Pageable pageable){
         return this.medicoRepository.findAll(pageable);
+    }
+
+    public Page<Medico> findByName(String name, Pageable pageable) {
+        return this.medicoRepository.findAllByNomeContaining(name, pageable);
     }
 
     @Transactional

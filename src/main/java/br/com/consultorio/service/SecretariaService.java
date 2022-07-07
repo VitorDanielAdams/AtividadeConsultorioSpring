@@ -1,5 +1,6 @@
 package br.com.consultorio.service;
 
+import br.com.consultorio.entity.Paciente;
 import br.com.consultorio.entity.Secretaria;
 import br.com.consultorio.repository.SecretariaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,10 @@ public class SecretariaService {
 
     public Page<Secretaria> listAll(Pageable pageable){
         return this.secretariaRepository.findAll(pageable);
+    }
+
+    public Page<Secretaria> findByName(String name, Pageable pageable) {
+        return this.secretariaRepository.findAllByNomeContaining(name, pageable);
     }
 
     @Transactional

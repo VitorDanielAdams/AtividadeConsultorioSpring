@@ -25,11 +25,11 @@ public class Paciente extends Pessoa {
     private Convenio convenio;
 
     @Getter @Setter
-    @Column(name = "numero_cartao_convenio", nullable = false, length = 20)
+    @Column(name = "numero_cartao_convenio", length = 20)
     private String numeroCartaoConvenio;
 
     @Getter @Setter
-    @Column(name = "data_vencimento", nullable = false)
+    @Column(name = "data_vencimento")
     private LocalDateTime dataVencimento;
 
 }

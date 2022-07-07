@@ -60,6 +60,10 @@ public class PacienteService {
         return this.pacienteRepository.findAll(pageable);
     }
 
+    public Page<Paciente> findByName(String name, Pageable pageable) {
+        return this.pacienteRepository.findAllByNomeContaining(name, pageable);
+    }
+
     @Transactional
     public void update(Long id, Paciente paciente) {
         if (id == paciente.getId()){

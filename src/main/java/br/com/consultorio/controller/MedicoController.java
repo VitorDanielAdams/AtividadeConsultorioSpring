@@ -29,6 +29,14 @@ public class MedicoController {
         return ResponseEntity.ok().body(this.medicoService.listAll(pageable));
     }
 
+    @GetMapping("/busca/{name}")
+    public ResponseEntity<Page<Medico>> findByName(
+            Pageable pageable,
+            @PathVariable("name") String medicoName
+    ){
+        return ResponseEntity.ok().body(this.medicoService.findByName(medicoName, pageable));
+    }
+
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody Medico medico){
         try {

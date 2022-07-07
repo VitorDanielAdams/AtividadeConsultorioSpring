@@ -2,14 +2,12 @@ package br.com.consultorio.service;
 
 import br.com.consultorio.entity.Convenio;
 import br.com.consultorio.repository.ConvenioRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -24,6 +22,10 @@ public class ConvenioService {
 
     public Page<Convenio> listAll(Pageable pageable){
         return this.convenioRepository.findAll(pageable);
+    }
+
+    public Page<Convenio> findByName(String name, Pageable pageable) {
+        return this.convenioRepository.findAllByNomeContaining(name, pageable);
     }
 
     @Transactional

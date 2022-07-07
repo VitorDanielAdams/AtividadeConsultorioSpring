@@ -29,6 +29,14 @@ public class EspecialidadeController {
         return ResponseEntity.ok().body(this.especialidadeService.listAll(pageable));
     }
 
+    @GetMapping("/busca/{name}")
+    public ResponseEntity<Page<Especialidade>> findByName(
+            Pageable pageable,
+            @PathVariable("name") String especialidadeName
+    ){
+        return ResponseEntity.ok().body(this.especialidadeService.findByName(especialidadeName, pageable));
+    }
+
     @PostMapping("/cadastrar")
     public ResponseEntity<?> insert(@RequestBody Especialidade especialidade){
         try {

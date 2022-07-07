@@ -29,6 +29,14 @@ public class ConvenioController {
         return ResponseEntity.ok().body(this.convenioService.listAll(pageable));
     }
 
+    @GetMapping("/busca/{name}")
+    public ResponseEntity<Page<Convenio>> findByName(
+            Pageable pageable,
+            @PathVariable("name") String convenioName
+    ){
+        return ResponseEntity.ok().body(this.convenioService.findByName(convenioName, pageable));
+    }
+
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody Convenio convenio){
         try {

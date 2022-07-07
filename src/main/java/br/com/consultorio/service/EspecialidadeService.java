@@ -25,6 +25,10 @@ public class EspecialidadeService {
         return this.especialidadeRepository.findAll(pageable);
     }
 
+    public Page<Especialidade> findByName(String name, Pageable pageable) {
+        return this.especialidadeRepository.findAllByNomeContaining(name, pageable);
+    }
+
     @Transactional
     public void update(Long id, Especialidade especialidade) {
         if (id == especialidade.getId()) {

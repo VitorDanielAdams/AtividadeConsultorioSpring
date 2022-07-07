@@ -29,6 +29,14 @@ public class SecretariaController {
         return ResponseEntity.ok().body(this.secretariaService.listAll(pageable));
     }
 
+    @GetMapping("/busca/{name}")
+    public ResponseEntity<Page<Secretaria>> findByName(
+            Pageable pageable,
+            @PathVariable("name") String secretariaName
+    ){
+        return ResponseEntity.ok().body(this.secretariaService.findByName(secretariaName, pageable));
+    }
+
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody Secretaria secretaria){
         try {
